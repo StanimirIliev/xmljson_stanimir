@@ -1,0 +1,85 @@
+group 'clouway'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+
+repositories {
+    flatDir {
+        dirs "${rootProject.buildDir}/libs/"
+    }
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile group: 'clouway', name: 'messagecodec', version: '1.0'
+}
+
+jar {
+    manifest {
+        attributes(
+
+                'Class-Path': 'lib/'+configurations.compile.collect{it.getName()}.join(' '),
+                'Main-Class': 'App'
+        )
+    }
+}
+
+task copyJarFile(type: Copy) {
+    from "${rootProject.buildDir}/libs/messagecodec-1.0.jar"
+    into 'build/libs/lib'
+    println 'Done!'
+}
+
+task createFiles {
+    File json = new File('build/libs/message.json')
+    json.setText("[{\"firstName\": \"John\", \"lastName\": \"Smith\", \"age\": 34}," +
+            "{\"firstName\": \"John\", \"lastName\": \"Smith\", \"age\": 34}," +
+            "{\"firstName\": \"John\", \"lastName\": \"Smith\", \"age\": 34}," +
+            "{\"firstName\": \"John\", \"lastName\": \"Smith\", \"age\": 34}," +
+            "{\"firstName\": \"John\", \"lastName\": \"Smith\", \"age\": 34}," +
+            "{\"firstName\": \"John\", \"lastName\": \"Smith\", \"age\": 34}," +
+            "{\"firstName\": \"John\", \"lastName\": \"Smith\", \"age\": 34}]")
+    json.createNewFile()
+    File xml = new File('build/libs/message.xml')
+    xml.setText("<User-array>\n" +
+            "    <User>\n" +
+            "        <firstName>John</firstName>\n" +
+            "        <lastName>Smith</lastName>\n" +
+            "        <age>34</age>\n" +
+            "    </User>\n" +
+            "    <User>\n" +
+            "        <firstName>John</firstName>\n" +
+            "        <lastName>Smith</lastName>\n" +
+            "        <age>34</age>\n" +
+            "    </User>\n" +
+            "    <User>\n" +
+            "        <firstName>John</firstName>\n" +
+            "        <lastName>Smith</lastName>\n" +
+            "        <age>34</age>\n" +
+            "    </User>\n" +
+            "    <User>\n" +
+            "        <firstName>John</firstName>\n" +
+            "        <lastName>Smith</lastName>\n" +
+            "        <age>34</age>\n" +
+            "    </User>\n" +
+            "    <User>\n" +
+            "        <firstName>John</firstName>\n" +
+            "        <lastName>Smith</lastName>\n" +
+            "        <age>34</age>\n" +
+            "    </User>\n" +
+            "    <User>\n" +
+            "        <firstName>John</firstName>\n" +
+            "        <lastName>Smith</lastName>\n" +
+            "        <age>34</age>\n" +
+            "    </User>\n" +
+            "    <User>\n" +
+            "        <firstName>John</firstName>\n" +
+            "        <lastName>Smith</lastName>\n" +
+            "        <age>34</age>\n" +
+            "    </User>\n" +
+            "</User-array>")
+    xml.createNewFile()
+}

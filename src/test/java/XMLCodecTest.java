@@ -74,4 +74,13 @@ public class XMLCodecTest {
                 "  <age>30</age>\n" +
                 "</User>", new XMLCodec().encode(john));
     }
+
+    @Test
+    public void arraySyntaxTest(){
+        XMLCodec xml = new XMLCodec();
+        User[] users = new User[2];
+        users[0] = new User("a", "b", 2);
+        users[1] = new User("c", "d", 3);
+        System.out.println(xml.encode(users));
+    }
 }
